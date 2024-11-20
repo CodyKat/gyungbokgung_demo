@@ -1117,12 +1117,12 @@ GameObject:
   - component: {fileID: 1920125322}
   - component: {fileID: 1920125321}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: FrontDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1920125321
 BoxCollider:
   m_ObjectHideFlags: 0
