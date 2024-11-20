@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class FirstPersonCamera : MonoBehaviour
 {
-    public float mouseSensitivity = 1000f;
+    public float mouseSensitivity = 70f;
     public Transform playerBody; // 플레이어 본체의 Transform
-    public float moveSpeed = 100f;
+    public float moveSpeed = 20f;
     private Vector3 moveDirection;
 
     private float xRotation = 0f;
@@ -37,20 +38,21 @@ public class FirstPersonCamera : MonoBehaviour
         // 좌우 회전값 계산
         yRotation += mouseX;  // 좌우 회전은 제한 없음
 
-        // 카메라의 상하 회전 적용
-        playerBody.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
+        // player의 좌우 회전
+        playerBody.rotation = Quaternion.Euler(0f, yRotation, 0f);
+
+        Camera camera = this.GetComponentInChildren<Camera>();
+
+        camera.transform.localEulerAngles = new Vector3(xRotation, 0, 0);
     }
 
     void HandleMovement()
     {
         // 입력값에 따른 이동 벡터 계산
-        float moveX = Input.GetAxis("Horizontal"); // A/D
-        float moveZ = Input.GetAxis("Vertical");   // W/S
+        float horizontal = Input.GetAxis("Horizontal"); // A/D
+        float vertical = Input.GetAxis("Vertical");   // W/S
 
-        // 이동 방향 벡터 계산
-        moveDirection = transform.forward * moveZ + transform.right * moveX;
-
-        // 이동 방향으로 이동
-        playerBody.Translate(moveDirection * moveSpeed * Time.deltaTime, Space.World);
+        Vector3 m_Movement = new Vector3(horizontal, 0, vertical).normalized;
+        this.transform.Translate(m_Movement * Time.deltaTime * moveSpeed);
     }
 }
