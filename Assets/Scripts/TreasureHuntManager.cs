@@ -7,27 +7,32 @@ using UnityEngine.SceneManagement;
 
 public class TreasureHuntManager : MonoBehaviour
 {
+    public static TreasureHuntManager Instance;
     private GameObject[] treasureSpots;
     public GameObject[] treasureObjects;
+
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         treasureSpots = GameObject.FindGameObjectsWithTag("treasureSpot");
         treasureObjects = GameObject.FindGameObjectsWithTag("treasure");
 
-        Debug.Log(treasureSpots.Length);
-        Debug.Log(treasureObjects.Length);
         int[] spotIndices = generatorRandomNumber(1, treasureSpots.Length, treasureObjects.Length);
-        Debug.Log("spotIndices = " + spotIndices.Length);
         for (int i = 0;i < spotIndices.Length; i++)
         {
-            treasureObjects[i].transform.position = treasureSpots[spotIndices[i]].transform.position;
+            treasureObjects[i].transform.position = treasureSpots[spotIndices[i]].transform.position + new Vector3(0f, 5f, 0f);
+            treasureObjects[i].transform.localScale = new Vector3(10f, 10f, 10f);
+            treasureObjects[i].transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.black;
         }
-        Debug.Log("load finish");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
     }
 
