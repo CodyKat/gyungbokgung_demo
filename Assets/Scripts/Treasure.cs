@@ -1,27 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class Treasure : MonoBehaviour
 {
     // Start is called before the first frame update
-    public bool isFound = false;
-    void Start()
+    private TreasureHuntManager treasureHuntManager;
+    private GameObject[] treasureObjects;
+    private bool[] treasureIsFoundFlags;
+
+    private void Awake()
     {
-        
+
     }
 
+    private void Start()
+    {
+        treasureHuntManager = TreasureHuntManager.Instance;
+        treasureObjects = treasureHuntManager.treasureObjects;
+        treasureIsFoundFlags = treasureHuntManager.treasureIsFoundFlags;
+    }
     // Update is called once per frame
     void Update()
     {
         
     }
 
-    private void onClickInteraction()
+    public void onClick()
     {
-        Debug.Log(this.name);
-        isFound = true;
-        Destroy(this);
+        for (int i = 0; i < treasureObjects.Length; i++)
+        {
+            if (treasureObjects[i].gameObject == this.gameObject)
+            {
+                treasureIsFoundFlags[i] = true;
+                Debug.Log("hello");
+            }
+        }
     }
 }
