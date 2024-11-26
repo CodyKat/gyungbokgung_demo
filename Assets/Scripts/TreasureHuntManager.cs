@@ -30,7 +30,7 @@ public class TreasureHuntManager : MonoBehaviour
             treasureIsFoundFlags[i] = false;
         }
 
-        int[] spotIndices = generatorRandomNumber(1, treasureSpots.Length, treasureObjects.Length);
+        int[] spotIndices = GeneratorRandomNumber(1, treasureSpots.Length, treasureObjects.Length);
         for (int i = 0;i < spotIndices.Length; i++)
         {
             treasureObjects[i].transform.position = treasureSpots[spotIndices[i]].transform.position + new Vector3(0f, 5f, 0f);
@@ -62,7 +62,7 @@ public class TreasureHuntManager : MonoBehaviour
         return children;
     }
 
-    public static int[] generatorRandomNumber(int min, int max, int count)
+    public static int[] GeneratorRandomNumber(int min, int max, int count)
     {
         int[] intArray = new int[count];
         System.Random rand = new System.Random();
