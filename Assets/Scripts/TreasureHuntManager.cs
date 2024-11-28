@@ -14,7 +14,7 @@ public class TreasureHuntManager : MonoBehaviour
     private GameObject[] treasureSpots;
     public GameObject[] treasureObjects;
     public bool[] treasureIsFoundFlags;
-    public string[] illustrationTexts;
+    public string[] descriptionTexts;
 
 
     protected TreasureHuntManager() { }
@@ -39,7 +39,7 @@ public class TreasureHuntManager : MonoBehaviour
         treasureSpots = GameObject.FindGameObjectsWithTag("treasureSpot");
         treasureObjects = GameObject.FindGameObjectsWithTag("treasure");
         treasureIsFoundFlags = new bool[treasureObjects.Length];
-        LoadIllustrationTexts();
+        LoadDescriptionTexts();
 
 
         DontDestroyOnLoad(gameObject);
@@ -106,28 +106,23 @@ public class TreasureHuntManager : MonoBehaviour
         return intArray;
     }
 
-    public void OpenIllustration(int treasureIndex)
+    private void LoadDescriptionTexts()
     {
-        
-    }
-
-    private void LoadIllustrationTexts()
-    {
-        illustrationTexts = new string[treasureObjects.Length];
+        descriptionTexts = new string[treasureObjects.Length];
         for (int i = 0; i < treasureObjects.Length; i++)
         {
-            string illustrationTextFilePath = Constants.ILLUSTRATION_PATH + i + '_' + PlayerSetting.Instance.language + ".txt";
+            string descriptionTextFilePath = Constants.DESCRIPTIONS_PATH + i + '_' + PlayerSetting.Instance.language + ".txt";
             Debug.Log("Language =" + Application.systemLanguage);
-            FileInfo fileInfo = new FileInfo(illustrationTextFilePath);
+            FileInfo fileInfo = new FileInfo(descriptionTextFilePath);
             if (fileInfo.Exists)
             {
-                StreamReader reader = new StreamReader(illustrationTextFilePath);
-                illustrationTexts[i] = reader.ReadToEnd();
+                StreamReader reader = new StreamReader(descriptionTextFilePath);
+                descriptionTexts[i] = reader.ReadToEnd();
                 reader.Close();
             }
             else
             {
-                Debug.Log("not file found PATH :" + illustrationTextFilePath);
+                Debug.Log("not file found PATH :" + descriptionTextFilePath);
             }
         }
     }
