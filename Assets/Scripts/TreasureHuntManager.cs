@@ -5,23 +5,45 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class TreasureHuntManager : MonoBehaviour
 {
-    public static TreasureHuntManager Instance;
+    private static TreasureHuntManager _instance;
+    private static object _synLock = new object();
     private GameObject[] treasureSpots;
     public GameObject[] treasureObjects;
     public bool[] treasureIsFoundFlags;
+    public string[] illustrationTexts;
 
+
+    protected TreasureHuntManager() { }
+    public static TreasureHuntManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                lock (_synLock)
+                {
+                    _instance = FindObjectOfType(typeof(TreasureHuntManager)) as TreasureHuntManager;
+                }
+            }
+            return _instance;
+        }
+    }
+    
 
     private void Awake()
     {
-        Instance = this;
         treasureSpots = GameObject.FindGameObjectsWithTag("treasureSpot");
         treasureObjects = GameObject.FindGameObjectsWithTag("treasure");
         treasureIsFoundFlags = new bool[treasureObjects.Length];
+        illustrationTexts = new string[treasureObjects.Length];
+
+
+        DontDestroyOnLoad(gameObject);
     }
 
-    // Start is called before the first frame update
     void Start()
     {
 
@@ -81,5 +103,10 @@ public class TreasureHuntManager : MonoBehaviour
             }
         }
         return intArray;
+    }
+
+    public void OpenIllustration(int treasureIndex)
+    {
+        
     }
 }
