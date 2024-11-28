@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public enum Languages
 {
     KOR,
@@ -9,13 +11,17 @@ public class PlayerSetting
 {
     // Player Setting
     public Languages lang { get; set; }
+    private int _backgroundVolume;
     public int backgroundVolume // 0 ~ 100
     {
-        get => backgroundVolume;
+        get => _backgroundVolume;
         set
         {
             if (0 <= value && value <= 100)
-                backgroundVolume = value;
+            {
+                _backgroundVolume = value;
+            }
+            return;
         }
     }
 
