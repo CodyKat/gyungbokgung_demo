@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 
 public class TreasureHuntManager : MonoBehaviour
@@ -38,7 +39,7 @@ public class TreasureHuntManager : MonoBehaviour
         treasureSpots = GameObject.FindGameObjectsWithTag("treasureSpot");
         treasureObjects = GameObject.FindGameObjectsWithTag("treasure");
         treasureIsFoundFlags = new bool[treasureObjects.Length];
-        illustrationTexts = new string[treasureObjects.Length];
+        LoadIllustrationTexts();
 
 
         DontDestroyOnLoad(gameObject);
@@ -108,5 +109,26 @@ public class TreasureHuntManager : MonoBehaviour
     public void OpenIllustration(int treasureIndex)
     {
         
+    }
+
+    private void LoadIllustrationTexts()
+    {
+        illustrationTexts = new string[treasureObjects.Length];
+        for (int i = 0; i < treasureObjects.Length; i++)
+        {
+            string illustrationTextFilePath = Constants.ILLUSTRATION_PATH + i + '_' + PlayerSetting.Instance.language + ".txt";
+            Debug.Log("Language =" + Application.systemLanguage);
+            FileInfo fileInfo = new FileInfo(illustrationTextFilePath);
+            if (fileInfo.Exists)
+            {
+                StreamReader reader = new StreamReader(illustrationTextFilePath);
+                illustrationTexts[i] = reader.ReadToEnd();
+                reader.Close();
+            }
+            else
+            {
+                Debug.Log("not file found PATH :" + illustrationTextFilePath);
+            }
+        }
     }
 }
