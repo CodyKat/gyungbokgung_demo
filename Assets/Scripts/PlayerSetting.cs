@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public enum Languages
-{
-    KOR,
-    ENG,
-    JAP
-}
-
+// TODO
+// Valid Language 인지 체크하고 변경할 수 있는 setter가 필요함
 public class PlayerSetting
 {
     // Player Setting
-    public Languages lang { get; set; }
+    private SystemLanguage _language;
+    public SystemLanguage language
+    {
+        get => _language;
+        set { _language = value; }
+    }
     private int _backgroundVolume;
     public int backgroundVolume // 0 ~ 100
     {
@@ -21,7 +21,6 @@ public class PlayerSetting
             {
                 _backgroundVolume = value;
             }
-            return;
         }
     }
 
@@ -30,8 +29,13 @@ public class PlayerSetting
 
     private static void InitSetting(PlayerSetting setting)
     {
-        setting.lang = Languages.KOR;
-        setting.backgroundVolume = 100;
+        if (Application.systemLanguage == SystemLanguage.Korean
+            || Application.systemLanguage == SystemLanguage.English
+            || Application.systemLanguage == SystemLanguage.Japanese)
+            setting.language = Application.systemLanguage;
+        else
+            setting.language = SystemLanguage.English;
+        setting.backgroundVolume = Constants.BACKGROUND_SOUND_INIT_VALUE;
     }
 
     protected PlayerSetting() { }
