@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using DG.Tweening;
 using System.Threading;
+using TMPro;
 
 
 public class TreasureHuntManager : MonoBehaviour
@@ -135,6 +136,7 @@ public class TreasureHuntManager : MonoBehaviour
         Vector3 playerPos = player.transform.position;
         Vector3 directionVec = Vector3.Normalize(playerPos - treasurePos);
         Vector3 descriptionPos = treasurePos + foundTreasure.transform.localScale.x * directionVec / 2;
+        descriptionPanel.transform.Find("Text").GetComponent<TextMeshPro>().text = descriptionTexts[treasureIndex].ToString();
 
         if (descriptionPanel == null)
         {
@@ -145,6 +147,8 @@ public class TreasureHuntManager : MonoBehaviour
         // 한번에 플레이어를 바라보게 하고 싶은데 -playerpos로 LookAt을 해도 물체를 바라봄
         descriptionCanvas.transform.LookAt(playerPos);
         descriptionCanvas.transform.Rotate(new Vector3(0, 180, 0));
+
+        
 
         descriptionPanel.Show();
         var seq = DOTween.Sequence();
