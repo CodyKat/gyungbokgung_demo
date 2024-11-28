@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class Treasure : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class Treasure : MonoBehaviour
     private TreasureHuntManager treasureHuntManager;
     private GameObject[] treasureObjects;
     private bool[] treasureIsFoundFlags;
+    private GameObject player;
 
     private void Awake()
     {
@@ -17,6 +19,7 @@ public class Treasure : MonoBehaviour
         treasureHuntManager = TreasureHuntManager.Instance;
         treasureObjects = treasureHuntManager.treasureObjects;
         treasureIsFoundFlags = treasureHuntManager.treasureIsFoundFlags;
+        player = GameObject.Find("Player");
     }
     // Update is called once per frame
     void Update()
@@ -30,7 +33,19 @@ public class Treasure : MonoBehaviour
         {
             if (treasureObjects[i].gameObject == this.gameObject)
             {
+                GameObject foundTreasure = treasureObjects[i];
+                Vector3 treasurePos = foundTreasure.transform.position;
+                Vector3 playerPos = player.transform.position;
+                Vector3 directionVec = Vector3.Normalize(playerPos - treasurePos);
+                Vector3 descriptionPos = treasurePos + foundTreasure.transform.localScale.x * directionVec;
+
                 treasureIsFoundFlags[i] = true;
+                descriptionBoard.transform.position = descriptionPos;
+                descriptionBoard.transform.LookAt(directionVec);
+                Task showingDescription = new Task(() => treasureHuntManager.showDescription(descriptionPos, directionVec));
+                showingDescription.Start();
+                showingDescription.Wait();
+                Destroy(this);
                 Debug.Log("hello");
             }
         }

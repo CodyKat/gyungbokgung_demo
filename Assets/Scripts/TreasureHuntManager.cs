@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using DG.Tweening;
 
 
 public class TreasureHuntManager : MonoBehaviour
@@ -12,9 +13,11 @@ public class TreasureHuntManager : MonoBehaviour
     private static TreasureHuntManager _instance;
     private static object _synLock = new object();
     private GameObject[] treasureSpots;
+    private GameObject player;
     public GameObject[] treasureObjects;
     public bool[] treasureIsFoundFlags;
     public string[] descriptionTexts;
+    static PanelHandler descriptionBoard;
 
 
     protected TreasureHuntManager() { }
@@ -40,7 +43,8 @@ public class TreasureHuntManager : MonoBehaviour
         treasureObjects = GameObject.FindGameObjectsWithTag("treasure");
         treasureIsFoundFlags = new bool[treasureObjects.Length];
         LoadDescriptionTexts();
-
+        player = GameObject.Find("Player");
+        descriptionBoard = GameObject.Find("TreasureDescription").GetComponent<PanelHandler>();
 
         DontDestroyOnLoad(gameObject);
     }
@@ -125,5 +129,19 @@ public class TreasureHuntManager : MonoBehaviour
                 Debug.Log("not file found PATH :" + descriptionTextFilePath);
             }
         }
+    }
+
+    public void showDescription(Vector3 descriptionPos, Vector3 directionVec)
+    {
+        if (descriptionBoard == null)
+        {
+            Debug.Log("Description Board Object not found!!!");
+        }
+        descriptionBoard.Show();
+        var seq = DOTween.Sequence();
+
+        seq.Play().OnComplete(() => {
+            descriptionBoard.Show();
+        });
     }
 }
