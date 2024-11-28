@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using DG.Tweening;
+using System.Threading;
 
 
 public class TreasureHuntManager : MonoBehaviour
@@ -17,6 +18,8 @@ public class TreasureHuntManager : MonoBehaviour
     public GameObject[] treasureObjects;
     public bool[] treasureIsFoundFlags;
     public string[] descriptionTexts;
+    private GameObject descriptionCanvas;
+    private PanelHandler descriptionPanel;
 
 
     protected TreasureHuntManager() { }
@@ -62,17 +65,13 @@ public class TreasureHuntManager : MonoBehaviour
             treasureObjects[i].transform.localScale = new Vector3(10f, 10f, 10f);
             treasureObjects[i].transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.black;
         }
+
+        descriptionCanvas = GameObject.Find("TreasureDescription");
+        descriptionPanel = descriptionCanvas.transform.GetChild(0).GetComponent<PanelHandler>();
     }
 
     private void Update()
     {
-        for (int i = 0; i < treasureIsFoundFlags.Length; i++)
-        {
-            if (treasureIsFoundFlags[i] == true)
-            {
-                Debug.Log(i);
-            }
-        }
     }
 
     public GameObject[] GetChildren(GameObject parent)
@@ -129,17 +128,29 @@ public class TreasureHuntManager : MonoBehaviour
         }
     }
 
-    public void showDescription(PanelHandler descriptionBoard)
+    public void showDescription(int treasureIndex)
     {
-        if (descriptionBoard == null)
+        GameObject foundTreasure = treasureObjects[treasureIndex];
+        Vector3 treasurePos = foundTreasure.transform.position;
+        Vector3 playerPos = player.transform.position;
+        Vector3 directionVec = Vector3.Normalize(playerPos - treasurePos);
+        Vector3 descriptionPos = treasurePos + foundTreasure.transform.localScale.x * directionVec / 2;
+
+        if (descriptionPanel == null)
         {
             Debug.Log("Description Board Object not found!!!");
         }
-        descriptionBoard.Show();
+
+        descriptionCanvas.transform.position = descriptionPos;
+        // 한번에 플레이어를 바라보게 하고 싶은데 -playerpos로 LookAt을 해도 물체를 바라봄
+        descriptionCanvas.transform.LookAt(playerPos);
+        descriptionCanvas.transform.Rotate(new Vector3(0, 180, 0));
+
+        descriptionPanel.Show();
         var seq = DOTween.Sequence();
 
         seq.Play().OnComplete(() => {
-            descriptionBoard.Show();
+            descriptionPanel.Show();
         });
     }
 }
