@@ -136,7 +136,8 @@ public class TreasureHuntManager : MonoBehaviour
         Vector3 playerPos = player.transform.position;
         Vector3 directionVec = Vector3.Normalize(playerPos - treasurePos);
         Vector3 descriptionPos = treasurePos + foundTreasure.transform.localScale.x * directionVec / 2;
-        descriptionPanel.transform.Find("Text").GetComponent<TextMeshPro>().text = descriptionTexts[treasureIndex].ToString();
+        descriptionPanel.transform.Find("Text").GetComponent<TextMeshProUGUI>().text
+            = descriptionTexts[treasureIndex].ToString();
 
         if (descriptionPanel == null)
         {

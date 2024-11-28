@@ -32,6 +32,7 @@ public class Treasure : MonoBehaviour
             {
                 treasureIsFoundFlags[i] = true;
                 treasureHuntManager.showDescription(i);
+                Destroy(gameObject);
             }
         }
     }
