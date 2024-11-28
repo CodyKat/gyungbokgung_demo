@@ -17,7 +17,6 @@ public class TreasureHuntManager : MonoBehaviour
     public GameObject[] treasureObjects;
     public bool[] treasureIsFoundFlags;
     public string[] descriptionTexts;
-    static PanelHandler descriptionBoard;
 
 
     protected TreasureHuntManager() { }
@@ -44,7 +43,6 @@ public class TreasureHuntManager : MonoBehaviour
         treasureIsFoundFlags = new bool[treasureObjects.Length];
         LoadDescriptionTexts();
         player = GameObject.Find("Player");
-        descriptionBoard = GameObject.Find("TreasureDescription").GetComponent<PanelHandler>();
 
         DontDestroyOnLoad(gameObject);
     }
@@ -131,7 +129,7 @@ public class TreasureHuntManager : MonoBehaviour
         }
     }
 
-    public void showDescription(Vector3 descriptionPos, Vector3 directionVec)
+    public void showDescription(PanelHandler descriptionBoard)
     {
         if (descriptionBoard == null)
         {

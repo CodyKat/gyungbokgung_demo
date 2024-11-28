@@ -8,6 +8,7 @@ public class Treasure : MonoBehaviour
     private GameObject[] treasureObjects;
     private bool[] treasureIsFoundFlags;
     private GameObject player;
+    private PanelHandler descriptionBoard;
 
     private void Awake()
     {
@@ -20,6 +21,7 @@ public class Treasure : MonoBehaviour
         treasureObjects = treasureHuntManager.treasureObjects;
         treasureIsFoundFlags = treasureHuntManager.treasureIsFoundFlags;
         player = GameObject.Find("Player");
+        descriptionBoard = GameObject.Find("TreasureDescription").GetComponent<PanelHandler>();
     }
     // Update is called once per frame
     void Update()
@@ -29,6 +31,7 @@ public class Treasure : MonoBehaviour
 
     public void onClick()
     {
+        
         for (int i = 0; i < treasureObjects.Length; i++)
         {
             if (treasureObjects[i].gameObject == this.gameObject)
@@ -42,7 +45,7 @@ public class Treasure : MonoBehaviour
                 treasureIsFoundFlags[i] = true;
                 descriptionBoard.transform.position = descriptionPos;
                 descriptionBoard.transform.LookAt(directionVec);
-                Task showingDescription = new Task(() => treasureHuntManager.showDescription(descriptionPos, directionVec));
+                Task showingDescription = new Task(() => treasureHuntManager.showDescription(descriptionBoard));
                 showingDescription.Start();
                 showingDescription.Wait();
                 Destroy(this);
