@@ -1,13 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.IO;
 using DG.Tweening;
-using System.Threading;
 using TMPro;
+using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 
 public class TreasureHuntManager : MonoBehaviour
@@ -18,7 +16,8 @@ public class TreasureHuntManager : MonoBehaviour
     private GameObject player;
     public GameObject[] treasureObjects;
     public bool[] treasureIsFoundFlags;
-    public string[] descriptionTexts;
+    public TextAsset[] descriptionTexts;
+    public Texture2D[] treasureImages;
     private GameObject descriptionCanvas;
     private PanelHandler descriptionPanel;
 
@@ -46,6 +45,7 @@ public class TreasureHuntManager : MonoBehaviour
         treasureObjects = GameObject.FindGameObjectsWithTag("treasure");
         treasureIsFoundFlags = new bool[treasureObjects.Length];
         LoadDescriptionTexts();
+        LoadTreasureImages();
         player = GameObject.Find("Player");
 
         DontDestroyOnLoad(gameObject);
@@ -110,22 +110,25 @@ public class TreasureHuntManager : MonoBehaviour
 
     private void LoadDescriptionTexts()
     {
-        descriptionTexts = new string[treasureObjects.Length];
+        descriptionTexts = new TextAsset[treasureObjects.Length];
         for (int i = 0; i < treasureObjects.Length; i++)
         {
-            string descriptionTextFilePath = Constants.DESCRIPTIONS_PATH + i + '_' + PlayerSetting.Instance.language + ".txt";
-            Debug.Log("Language =" + Application.systemLanguage);
-            FileInfo fileInfo = new FileInfo(descriptionTextFilePath);
-            if (fileInfo.Exists)
-            {
-                StreamReader reader = new StreamReader(descriptionTextFilePath);
-                descriptionTexts[i] = reader.ReadToEnd();
-                reader.Close();
-            }
-            else
-            {
-                Debug.Log("not file found PATH :" + descriptionTextFilePath);
-            }
+            string descriptionTextFilePath = Constants.DESCRIPTIONS_PATH + i + '_' + PlayerSetting.Instance.language;
+            descriptionTexts[i] = Resources.Load(descriptionTextFilePath) as TextAsset;
+            if (descriptionTexts[i] == null)
+                Debug.LogError("not file found PATH :" + descriptionTextFilePath);
+        }
+    }
+
+    private void LoadTreasureImages()
+    {
+        treasureImages = new Texture2D[treasureObjects.Length];
+        for (int i = 0; i < treasureObjects.Length; i++)
+        {
+            string imageFilePath = Constants.TREASURE_IMAGE_PATH + "treasure_image_" + i;
+            treasureImages[i] = Resources.Load(imageFilePath) as Texture2D;
+            if (treasureImages[i] == null)
+                Debug.LogError("treasureImage" + i + "is not found!!");
         }
     }
 
@@ -138,6 +141,14 @@ public class TreasureHuntManager : MonoBehaviour
         Vector3 descriptionPos = treasurePos + foundTreasure.transform.localScale.x * directionVec / 2;
         descriptionPanel.transform.Find("Text").GetComponent<TextMeshProUGUI>().text
             = descriptionTexts[treasureIndex].ToString();
+
+        Sprite spriteImage = Sprite.Create(
+        treasureImages[treasureIndex],
+        new Rect(0, 0, treasureImages[treasureIndex].width, treasureImages[treasureIndex].height),
+                new Vector2(0.5f, 0.5f)
+            );
+        descriptionPanel.transform.Find("Image").GetComponent<Image>().sprite = spriteImage;
+        Debug.Log(treasureIndex);
 
         if (descriptionPanel == null)
         {

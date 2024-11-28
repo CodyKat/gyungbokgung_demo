@@ -30,8 +30,8 @@ public class Treasure : MonoBehaviour
         {
             if (treasureObjects[i].gameObject == this.gameObject)
             {
-                treasureIsFoundFlags[i] = true;
-                treasureHuntManager.showDescription(i);
+                treasureIsFoundFlags[0] = true;
+                treasureHuntManager.showDescription(0);
                 Destroy(gameObject);
             }
         }

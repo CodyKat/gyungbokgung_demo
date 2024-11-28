@@ -15,7 +15,6 @@ public class IllustratedGuide : MonoBehaviour
         treasureHuntManager = TreasureHuntManager.Instance;
         treasureObjects = treasureHuntManager.treasureObjects;
         treasureIsFoundFlags = treasureHuntManager.treasureIsFoundFlags;
-        descriptionTexts = treasureHuntManager.descriptionTexts;
     }
 
 
