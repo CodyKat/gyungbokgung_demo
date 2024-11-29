@@ -163,7 +163,6 @@ public class TreasureHuntManager : MonoBehaviour
                 new Vector2(0.5f, 0.5f)
             );
         descriptionPanel.transform.Find("Image").GetComponent<Image>().sprite = spriteImage;
-        Debug.Log(treasureIndex);
 
         if (descriptionPanel == null)
         {
