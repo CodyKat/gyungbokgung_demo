@@ -20,6 +20,8 @@ public class TreasureHuntManager : MonoBehaviour
     public Texture2D[] treasureImages;
     private GameObject descriptionCanvas;
     private PanelHandler descriptionPanel;
+    private GameObject illustratedGuideCanvas;
+    private PanelHandler illustratedGuidePanel;
 
 
     protected TreasureHuntManager() { }
@@ -68,7 +70,10 @@ public class TreasureHuntManager : MonoBehaviour
         }
 
         descriptionCanvas = GameObject.Find("TreasureDescription");
-        descriptionPanel = descriptionCanvas.transform.GetChild(0).GetComponent<PanelHandler>();
+        descriptionPanel = descriptionCanvas.transform.Find("Panel").GetComponent<PanelHandler>();
+
+        illustratedGuideCanvas = GameObject.Find("IllustratedGuide");
+        illustratedGuidePanel = illustratedGuideCanvas.transform.Find("Panel").GetComponent<PanelHandler>();
     }
 
     private void Update()
@@ -130,6 +135,16 @@ public class TreasureHuntManager : MonoBehaviour
             if (treasureImages[i] == null)
                 Debug.LogError("treasureImage" + i + "is not found!!");
         }
+    }
+
+    public void showIllustratedGuide()
+    {
+        illustratedGuidePanel.Show();
+        var seq = DOTween.Sequence();
+
+        seq.Play().OnComplete(() => {
+            illustratedGuidePanel.Show();
+        });
     }
 
     public void showDescription(int treasureIndex)

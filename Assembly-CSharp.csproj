@@ -68,7 +68,7 @@
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\TreasureHuntManager.cs" />
     <Compile Include="Assets\Scripts\following_user.cs" />
-    <Compile Include="Assets\Scripts\TreasureInspect.cs" />
+    <Compile Include="Assets\Scripts\GuidePet.cs" />
     <Compile Include="Assets\Scripts\ButtonHandler.cs" />
     <Compile Include="Assets\Scripts\IllustratedGuide.cs" />
     <Compile Include="Assets\Scripts\PanelHandler.cs" />
