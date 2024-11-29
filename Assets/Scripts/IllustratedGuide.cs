@@ -47,6 +47,8 @@ public class IllustratedGuide : MonoBehaviour
 
     public void loadFoundTreasure()
     {
+        Vector3 targetPosition = xrCamera.position + xrCamera.forward * frontDistance + new Vector3(0, 2f, 0);
+
         Debug.Log("in loadFoundTreasure");
         int imageIndex = 0;
         GameObject[] imagesObjects = GetChildren(transform.Find("Panel").Find("TreasureImages").gameObject);
@@ -63,6 +65,7 @@ public class IllustratedGuide : MonoBehaviour
             imagesObjects[imageIndex].transform.GetComponent<Image>().sprite = spriteImage;
             imageIndex++;
         }
+        transform.position = targetPosition;
     }
     public GameObject[] GetChildren(GameObject parent)
     {
