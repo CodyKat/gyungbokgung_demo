@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using UnityEngine;
-
 public class FollowUserRight : MonoBehaviour
 {
     public Transform xrCamera;  // 사용자 카메라(HMD)의 Transform
