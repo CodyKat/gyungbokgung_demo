@@ -34,6 +34,8 @@ public class FollowUserRight : MonoBehaviour
             if (distance > stopRadius)
             {
                 petyPos = xrCamera.position.y - 2f;
+                if (petyPos < transform.localScale.x / 2)
+                    petyPos = transform.localScale.x / 2;
                 Vector3 targetPosition = new Vector3(xrCamera.position.x, petyPos, xrCamera.position.z);
                 // Cube를 부드럽게 목표 위치로 이동
                 transform.position = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
