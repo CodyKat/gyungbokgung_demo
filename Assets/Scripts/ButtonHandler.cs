@@ -6,8 +6,11 @@ using DG.Tweening;
 public class ButtonHandler : MonoBehaviour
 {
     public PanelHandler popupWindow;
+    public BuildingPanelHandler buildingSet;
+    public GameObject panelObj;
 
-    public void OnButtonClick(){     
+    public void OnButtonClick(){  
+        buildingSet.SetDescriptionText(panelObj);
         popupWindow.Show(); 
         var seq = DOTween.Sequence();      
         

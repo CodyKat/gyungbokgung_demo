@@ -170,7 +170,7 @@ public class TreasureHuntManager : MonoBehaviour
         }
 
         descriptionCanvas.transform.position = descriptionPos;
-        // ÇÑ¹ø¿¡ ÇÃ·¹ÀÌ¾î¸¦ ¹Ù¶óº¸°Ô ÇÏ°í ½ÍÀºµ¥ -playerpos·Î LookAtÀ» ÇØµµ ¹°Ã¼¸¦ ¹Ù¶óº½
+        // ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ ï¿½Ù¶óº¸°ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -playerposï¿½ï¿½ LookAtï¿½ï¿½ ï¿½Øµï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ù¶ï¿½
         descriptionCanvas.transform.LookAt(playerPos);
         descriptionCanvas.transform.Rotate(new Vector3(0, 180, 0));
 
