@@ -106,6 +106,7 @@
     <None Include="Assets\Resources\Descriptions\9_Korean.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Resources\Descriptions\8_Korean.txt" />
+    <None Include="Assets\Resources\Descriptions\Hongbokjeon_Korean.txt" />
     <None Include="Assets\Resources\Descriptions\1_Korean.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\Resources\Descriptions\Gangnyeongjeon_Korean.txt" />
