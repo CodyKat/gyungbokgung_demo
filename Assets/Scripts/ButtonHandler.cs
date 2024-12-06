@@ -7,7 +7,7 @@ public class ButtonHandler : MonoBehaviour
 {
     public PanelHandler popupWindow;
 
-    public void OnButtonClick(){     
+    public void OnButtonClick(){
         popupWindow.Show(); 
         var seq = DOTween.Sequence();      
         

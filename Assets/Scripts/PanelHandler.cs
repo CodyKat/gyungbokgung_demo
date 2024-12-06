@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using DG.Tweening;
 
 public class PanelHandler : MonoBehaviour{
+
     // Start is called before the first frame update
     void Start(){
 		DOTween.Init();
@@ -40,5 +42,7 @@ public class PanelHandler : MonoBehaviour{
 		{
 			gameObject.SetActive(false);
 		});
-		}
+	}
+
+	
 }
