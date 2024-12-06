@@ -43,7 +43,12 @@ public class WalkSound : MonoBehaviour
                     if (!isLeftThumbstickMoving)
                     {
                         isLeftThumbstickMoving = true;
-                        audioSource.PlayOneShot(soundClip);  // 소리 재생
+
+                        // 소리가 재생 중인지 확인
+                        if (!audioSource.isPlaying)
+                        {
+                            audioSource.PlayOneShot(soundClip);  // 소리 재생
+                        }
                     }
                 }
                 else
