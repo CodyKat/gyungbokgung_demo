@@ -44,7 +44,7 @@ public class WalkSound : MonoBehaviour
                     {
                         isLeftThumbstickMoving = true;
 
-                        // 소리가 이미 재생 중이면 새로 시작하지 않도록
+                        // 소리가 이미 재생 중이지 않으면 소리 시작
                         if (!audioSource.isPlaying)
                         {
                             audioSource.loop = true;  // 반복 재생 설정
@@ -59,7 +59,6 @@ public class WalkSound : MonoBehaviour
                     {
                         isLeftThumbstickMoving = false;
                         audioSource.loop = false;  // 반복 재생 해제
-                        audioSource.Stop();  // 소리 정지
                     }
                 }
             }
