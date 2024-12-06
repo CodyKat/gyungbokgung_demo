@@ -21,18 +21,7 @@ public class WalkSound : MonoBehaviour
         }
 
         // 왼쪽 컨트롤러 InputDevice 얻기
-        var inputDevices = new List<InputDevice>();
-        InputDevices.GetDevicesAtXRNode(XRNode.LeftHand, inputDevices);
-
-        if (inputDevices.Count > 0)
-        {
-            leftController = inputDevices[0];
-            Debug.Log("Left Controller found: " + leftController.name);  // 디버깅 메시지 추가
-        }
-        else
-        {
-            Debug.LogError("No Left Controller found.");  // 디버깅 메시지 추가
-        }
+        GetLeftController();
     }
 
     void Update()
@@ -72,6 +61,31 @@ public class WalkSound : MonoBehaviour
         else
         {
             Debug.LogWarning("Left controller is not valid!");  // 디버깅 메시지 추가
+            GetLeftController();  // 매 프레임마다 왼쪽 컨트롤러를 갱신
+        }
+    }
+
+    // 왼쪽 컨트롤러를 찾는 메서드
+    private void GetLeftController()
+    {
+        var inputDevices = new List<InputDevice>();
+        InputDevices.GetDevicesAtXRNode(XRNode.LeftHand, inputDevices);
+
+        if (inputDevices.Count > 0)
+        {
+            leftController = inputDevices[0];
+            Debug.Log("Left Controller found: " + leftController.name);  // 디버깅 메시지
+        }
+        else
+        {
+            Debug.LogError("No Left Controller found.");  // 오류 메시지
+            // 모든 연결된 XR 장치 출력
+            List<InputDevice> allDevices = new List<InputDevice>();
+            InputDevices.GetDevices(allDevices);
+            foreach (var device in allDevices)
+            {
+                Debug.Log("Device found: " + device.name);  // 모든 장치 리스트 출력
+            }
         }
     }
 }
