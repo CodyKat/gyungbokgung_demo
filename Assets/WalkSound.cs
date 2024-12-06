@@ -1,65 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
+using System.Collections.Generic;
 
 public class WalkSound : MonoBehaviour
 {
-    public InputDeviceCharacteristics controllerCharacteristics;
-    public List<GameObject> controllerPrefabs;
-    private InputDevice targetDevice;
-    private GameObject spawnedController;
-    private AudioSource audioSource;
+    public AudioClip soundClip;  // 재생할 소리 클립
+    private AudioSource audioSource;  // 오디오 소스 컴포넌트
+    private InputDevice leftController;  // 왼쪽 컨트롤러 InputDevice
+    private bool isLeftThumbstickMoving = false;  // 스틱이 움직이는지 체크
 
     void Start()
     {
-        List<InputDevice> devices = new List<InputDevice>();
-        InputDevices.GetDevicesWithCharacteristics(controllerCharacteristics, devices);
-        audioSource = gameObject.GetComponent<AudioSource>();
+        // AudioSource 컴포넌트를 추가하거나 기존의 것을 참조합니다.
+        audioSource = GetComponent<AudioSource>();
 
-
-        //input devices üũ debug
-        foreach (var item in devices)
+        if (audioSource == null)
         {
-            Debug.Log(item.name + item.characteristics);
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
 
-        if (devices.Count > 0)
+        // 왼쪽 컨트롤러 InputDevice 얻기
+        var inputDevices = new List<InputDevice>();
+        InputDevices.GetDevicesAtXRNode(XRNode.LeftHand, inputDevices);
+        if (inputDevices.Count > 0)
         {
-            targetDevice = devices[0];
-            //targetDevice�� �̸��� ������ controller�� ã�´�. 
-            GameObject prefab = controllerPrefabs.Find(controller => controller.name == targetDevice.name);
-
-            if (prefab) //prefab�� ������ �� 
-            {
-                spawnedController = Instantiate(prefab, transform);
-                Debug.Log(prefab);
-            }
-            else //prefab�� controller�� ã�� ���� ��
-            {
-                Debug.LogError("Did not find corresponding controller model.");
-                spawnedController = Instantiate(controllerPrefabs[0], transform);
-            }
+            leftController = inputDevices[0];
         }
     }
 
     void Update()
     {
-        //input�� debug
-        // if (targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue) &&
-        //     primaryButtonValue)
-        //     Debug.Log("Pressing Primary Button");
-
-        // if (targetDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue) &&
-        //     triggerValue > 0.1f)
-        //     Debug.Log("Triggerr pressed" + triggerValue);
-
-        if (targetDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 primary2DAxisValue) && primary2DAxisValue != Vector2.zero){
-            audioSource.Play();
+        if (leftController.isValid)
+        {
+            // 왼쪽 컨트롤러 스틱 입력 값 확인
+            Vector2 thumbstickInput;
+            if (leftController.TryGetFeatureValue(CommonUsages.primary2DAxis, out thumbstickInput))
+            {
+                // 스틱이 움직일 때 소리 재생
+                if (Mathf.Abs(thumbstickInput.x) > 0.1f || Mathf.Abs(thumbstickInput.y) > 0.1f)
+                {
+                    if (!isLeftThumbstickMoving)
+                    {
+                        isLeftThumbstickMoving = true;
+                        audioSource.PlayOneShot(soundClip);  // 소리 재생
+                    }
+                }
+                else
+                {
+                    isLeftThumbstickMoving = false;
+                }
+            }
         }
-        else {
-            audioSource.Stop();
-        }
-    
     }
 }
