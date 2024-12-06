@@ -51,7 +51,13 @@ public class IllustratedGuide : MonoBehaviour
 
         Debug.Log("in loadFoundTreasure");
         int imageIndex = 0;
-        GameObject[] imagesObjects = GetChildren(transform.Find("Panel").Find("TreasureImages").gameObject);
+        Transform a = transform.Find("Panel");
+        if (a == null)
+            Debug.Log("a");
+        Transform b = a.Find("TreasureImages");
+        if (b == null)
+            Debug.Log("b");
+        GameObject[] imagesObjects = GetChildren(b.gameObject);
         Debug.Log("flag length " + treasureIsFoundFlags.Length);
         for (int i = 0; i < treasureIsFoundFlags.Length; i++)
         {

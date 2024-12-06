@@ -21,7 +21,7 @@ public class GuidePet : MonoBehaviour
 
     public void onClick()
     {
-        IllustratedGuide.loadFoundTreasure();
+        //IllustratedGuide.loadFoundTreasure();
         treasureHuntManager.showIllustratedGuide();
     }
 }

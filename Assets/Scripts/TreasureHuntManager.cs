@@ -13,7 +13,7 @@ public class TreasureHuntManager : MonoBehaviour
     private static TreasureHuntManager _instance;
     private static object _synLock = new object();
     private GameObject[] treasureSpots;
-    private GameObject player;
+    public GameObject player;
     public GameObject[] treasureObjects;
     public bool[] treasureIsFoundFlags;
     public TextAsset[] descriptionTexts;
@@ -146,6 +146,7 @@ public class TreasureHuntManager : MonoBehaviour
             illustratedGuidePanel.Show();
         });
     }
+
 
     public void showDescription(int treasureIndex)
     {
