@@ -3,3 +3,9 @@ Logs/*
 Temp/*
 .vs/*
 obj/*
+UserSettings/*
+.vscode/*
+.vsconfig
+*.csproj
+**/*.userprefs
+**/*.pidb
