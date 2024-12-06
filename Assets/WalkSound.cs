@@ -23,9 +23,15 @@ public class WalkSound : MonoBehaviour
         // 왼쪽 컨트롤러 InputDevice 얻기
         var inputDevices = new List<InputDevice>();
         InputDevices.GetDevicesAtXRNode(XRNode.LeftHand, inputDevices);
+
         if (inputDevices.Count > 0)
         {
             leftController = inputDevices[0];
+            Debug.Log("Left Controller found: " + leftController.name);  // 디버깅 메시지 추가
+        }
+        else
+        {
+            Debug.LogError("No Left Controller found.");  // 디버깅 메시지 추가
         }
     }
 
@@ -62,6 +68,10 @@ public class WalkSound : MonoBehaviour
                     }
                 }
             }
+        }
+        else
+        {
+            Debug.LogWarning("Left controller is not valid!");  // 디버깅 메시지 추가
         }
     }
 }
