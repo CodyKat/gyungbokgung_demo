@@ -20,6 +20,9 @@ public class WalkSound : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
         }
 
+        // 소리 재생을 시작하지 않도록 초기화
+        audioSource.Stop();  // 초기화 시 소리 중지
+
         // 왼쪽 컨트롤러 InputDevice 얻기
         GetLeftController();
     }
@@ -50,9 +53,13 @@ public class WalkSound : MonoBehaviour
                 }
                 else
                 {
+                    // 스틱이 멈추면 소리 중지
                     if (isLeftThumbstickMoving)
                     {
                         isLeftThumbstickMoving = false;
+
+                        // 소리 중지 및 반복 설정 해제
+                        audioSource.Stop();  // 소리 중지
                         audioSource.loop = false;  // 반복 재생 해제
                     }
                 }
