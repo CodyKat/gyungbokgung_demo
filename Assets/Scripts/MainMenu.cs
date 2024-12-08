@@ -9,8 +9,7 @@ public class MainMenu : MonoBehaviour
     TreasureHuntManager treasureHuntManager;
     GameObject player;
     PanelHandler menuPanel;
-    int i = 0;
-
+    private IllustratedGuide IllustratedGuide;
 
     // Start is called before the first frame update
     void Start()
@@ -18,28 +17,16 @@ public class MainMenu : MonoBehaviour
         treasureHuntManager = TreasureHuntManager.Instance;
         player = treasureHuntManager.player;
         menuPanel = transform.Find("Panel").GetComponent<PanelHandler>();
+        IllustratedGuide = GameObject.FindObjectOfType<IllustratedGuide>();
         // 초기화 코드 필요 시 여기에 작성
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (i == 100)
-            onClickPet();
-        i++;
         transform.position = this.transform.parent.transform.position + new Vector3(0, 2, 0);
         transform.LookAt(player.transform.position);
         transform.Rotate(new Vector3(0, 180, 0));
-    }
-
-    public void onClickPet()
-    {
-        menuPanel.Show();
-        var seq = DOTween.Sequence();
-
-        seq.Play().OnComplete(() => {
-            menuPanel.Show();
-        });
     }
 
     // 게임 종료 버튼 클릭 시 호출
@@ -73,5 +60,7 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("도감");
         // 도감 열기 로직 추가
+        IllustratedGuide.loadFoundTreasure();
+        treasureHuntManager.showIllustratedGuide();
     }
 }

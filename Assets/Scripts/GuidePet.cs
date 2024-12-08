@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,13 +6,13 @@ using UnityEngine;
 public class GuidePet : MonoBehaviour
 {
     private TreasureHuntManager treasureHuntManager;
-    private IllustratedGuide IllustratedGuide;
+    private PanelHandler menuPanel;
 
     // Start is called before the first frame update
     void Start()
     {
         treasureHuntManager = TreasureHuntManager.Instance;
-        IllustratedGuide = GameObject.FindObjectOfType<IllustratedGuide>();
+        menuPanel = transform.Find("Menu").Find("Panel").GetComponent<PanelHandler>();
     }
 
     // Update is called once per frame
@@ -21,7 +22,11 @@ public class GuidePet : MonoBehaviour
 
     public void onClick()
     {
-        //IllustratedGuide.loadFoundTreasure();
-        treasureHuntManager.showIllustratedGuide();
+        menuPanel.Show();
+        var seq = DOTween.Sequence();
+
+        seq.Play().OnComplete(() => {
+            menuPanel.Show();
+        });
     }
 }

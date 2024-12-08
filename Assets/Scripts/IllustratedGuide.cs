@@ -4,9 +4,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// TODO: 싱글턴으로 만들어야 할 수도..
+
 public class IllustratedGuide : MonoBehaviour
 {
+    private static IllustratedGuide _instance;
+    private static object _synLock = new object();
     private TreasureHuntManager treasureHuntManager;
     private GameObject[] treasureObjects;
     private bool[] treasureIsFoundFlags;
@@ -20,6 +22,23 @@ public class IllustratedGuide : MonoBehaviour
     private Transform xrCamera;
 
     private Texture2D[] treasureImages;
+
+
+    protected IllustratedGuide() { }
+    public static IllustratedGuide Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                lock (_synLock)
+                {
+                    _instance = FindObjectOfType(typeof(IllustratedGuide)) as IllustratedGuide;
+                }
+            }
+            return _instance;
+        }
+    }
 
 
     private void Start()
@@ -55,7 +74,6 @@ public class IllustratedGuide : MonoBehaviour
         Debug.Log("flag length " + treasureIsFoundFlags.Length);
         for (int i = 0; i < treasureIsFoundFlags.Length; i++)
         {
-            Debug.Log("in the loop " + i);
             if (treasureIsFoundFlags[i] == false) continue;
             Sprite spriteImage = Sprite.Create(
                 treasureImages[i],
