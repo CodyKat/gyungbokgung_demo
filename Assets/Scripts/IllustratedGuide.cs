@@ -16,7 +16,6 @@ public class IllustratedGuide : MonoBehaviour
     private string[] descriptionTexts;
     private float frontDistance = 8f;
     private float moveSpeed = 3f;
-    private GameObject[] treasureImageObjects;
 
     private PanelHandler illustratedGuidePanel;
 
@@ -24,6 +23,7 @@ public class IllustratedGuide : MonoBehaviour
     private Transform xrCamera;
 
     private Texture2D[] treasureImages;
+    int i = 0;
 
     protected IllustratedGuide() { }
     public static IllustratedGuide Instance
@@ -51,7 +51,7 @@ public class IllustratedGuide : MonoBehaviour
 
         illustratedGuidePanel = transform.Find("Panel").GetComponent<PanelHandler>();
 
-        treasureImageObjects = GetChildren(illustratedGuidePanel.transform.Find("TreasureImages").gameObject);
+        treasureHuntManager.treasureImageObjects = GetChildren(illustratedGuidePanel.transform.Find("TreasureImages").gameObject);
 
         player = GameObject.Find("Player");
         xrCamera = Camera.main.transform;
@@ -65,6 +65,10 @@ public class IllustratedGuide : MonoBehaviour
         transform.LookAt(xrCamera.position);
         transform.Rotate(new Vector3(0, 180, 0));
         transform.position = Vector3.Lerp(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+
+        i++;
+        if (i == 200)
+            treasureHuntManager.treasureImageObjects[0].transform.GetComponent<Button>().onClick.Invoke();
     }
 
     public void loadFoundTreasure()
@@ -82,8 +86,12 @@ public class IllustratedGuide : MonoBehaviour
                 new Rect(0, 0, treasureImages[i].width, treasureImages[i].height),
                 new Vector2(0.5f, 0.5f)
             );
-            treasureImageObjects[imageIndex].transform.GetComponent<Image>().sprite = spriteImage;
-            treasureImageObjects[imageIndex].transform.GetComponent<Button>().onClick.AddListener(() => treasureHuntManager.showDescription(i));
+            treasureHuntManager.treasureImageObjects[imageIndex].transform.GetComponent<Image>().sprite = spriteImage;
+            Debug.Log("in loadFoundTreasure, i : " + i + "imageIndex : " + imageIndex);
+            treasureHuntManager.treasureImageObjects[imageIndex].transform.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                
+            });
             imageIndex++;
         }
         transform.position = targetPosition;

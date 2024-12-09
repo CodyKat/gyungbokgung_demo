@@ -15,6 +15,7 @@ public class TreasureHuntManager : MonoBehaviour
     private GameObject[] treasureSpots;
     public GameObject player;
     public GameObject[] treasureObjects;
+    public GameObject[] treasureImageObjects;
     public bool[] treasureIsFoundFlags;
     public TextAsset[] descriptionTexts;
     public Texture2D[] treasureImages;
@@ -147,8 +148,14 @@ public class TreasureHuntManager : MonoBehaviour
         });
     }
 
+    // showDescription function has two sepc.
+    // single parameter function get treasureIndex(treasure id in hierarchy)
+    // this function show treasure's description board infront of treasure, look at player
+    // double parameter function (look below) get treasureIndex and description position.
+    // second function can set position of treasure description, and its look at player also.
     public void showDescription(int treasureIndex)
     {
+        Debug.Log("in showDesciption treasureIndex : " + treasureIndex + "has size : " + treasureObjects.Length);
         GameObject foundTreasure = treasureObjects[treasureIndex];
         Vector3 treasurePos = foundTreasure.transform.position;
         Vector3 playerPos = player.transform.position;
@@ -175,6 +182,40 @@ public class TreasureHuntManager : MonoBehaviour
         descriptionCanvas.transform.Rotate(new Vector3(0, 180, 0));
 
         
+
+        descriptionPanel.Show();
+        var seq = DOTween.Sequence();
+
+        seq.Play().OnComplete(() => {
+            descriptionPanel.Show();
+        });
+    }
+
+    public void showDescription(int treasureIndex, Vector3 descriptionPos)
+    {
+        Debug.Log("in showDesciption treasureIndex : " + treasureIndex + "has size : " + treasureObjects.Length);
+        Vector3 playerPos = player.transform.position;
+        descriptionPanel.transform.Find("Text").GetComponent<TextMeshProUGUI>().text
+            = descriptionTexts[treasureIndex].ToString();
+
+        Sprite spriteImage = Sprite.Create(
+        treasureImages[treasureIndex],
+        new Rect(0, 0, treasureImages[treasureIndex].width, treasureImages[treasureIndex].height),
+                new Vector2(0.5f, 0.5f)
+            );
+        descriptionPanel.transform.Find("Image").GetComponent<Image>().sprite = spriteImage;
+
+        if (descriptionPanel == null)
+        {
+            Debug.Log("Description Board Object not found!!!");
+        }
+
+        descriptionCanvas.transform.position = descriptionPos;
+        // �ѹ��� �÷��̾ �ٶ󺸰� �ϰ� ������ -playerpos�� LookAt�� �ص� ��ü�� �ٶ�
+        descriptionCanvas.transform.LookAt(playerPos);
+        descriptionCanvas.transform.Rotate(new Vector3(0, 180, 0));
+
+
 
         descriptionPanel.Show();
         var seq = DOTween.Sequence();
