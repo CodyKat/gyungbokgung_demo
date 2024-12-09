@@ -67,7 +67,7 @@ public class MainMenu : MonoBehaviour
         Debug.Log("도감");
         // 도감 열기 로직 추가
         IllustratedGuide.loadFoundTreasure();
-        treasureHuntManager.showIllustratedGuide();
+        IllustratedGuide.showIllustratedGuide();
 
         // **설명창 위치를 사용자 주변으로 이동**
         Vector3 playerPos = player.transform.position;

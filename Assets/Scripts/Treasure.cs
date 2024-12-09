@@ -5,6 +5,7 @@ public class Treasure : MonoBehaviour
 {
     // Start is called before the first frame update
     private TreasureHuntManager treasureHuntManager;
+    private TreasureDescription treasureDescription;
     private GameObject[] treasureObjects;
     private bool[] treasureIsFoundFlags;
     int j = 0;
@@ -17,6 +18,7 @@ public class Treasure : MonoBehaviour
     private void Start()
     {
         treasureHuntManager = TreasureHuntManager.Instance;
+        treasureDescription = GameObject.Find("TreasureDescription").GetComponent<TreasureDescription>();
         treasureObjects = treasureHuntManager.treasureObjects;
         treasureIsFoundFlags = treasureHuntManager.treasureIsFoundFlags;
     }
@@ -36,7 +38,7 @@ public class Treasure : MonoBehaviour
             {
 
                 treasureIsFoundFlags[i] = true;
-                treasureHuntManager.showDescription(i, true, false);
+                treasureDescription.showDescription(i, true, false);
                 this.gameObject.SetActive(false);
             }
         }

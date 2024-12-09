@@ -6,6 +6,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using Unity.VisualScripting;
 
 
 public class TreasureHuntManager : MonoBehaviour
@@ -140,44 +141,5 @@ public class TreasureHuntManager : MonoBehaviour
                 new Vector2(0.5f, 0.5f)
             );
         }
-    }
-
-    public void showIllustratedGuide()
-    {
-        illustratedGuidePanel.Show();
-        var seq = DOTween.Sequence();
-
-        seq.Play().OnComplete(() => {
-            illustratedGuidePanel.Show();
-        });
-    }
-
-    // showDescription function has two sepc.
-    // single parameter function get treasureIndex(treasure id in hierarchy)
-    // this function show treasure's description board infront of treasure, look at player
-    // double parameter function (look below) get treasureIndex and description position.
-    // second function can set position of treasure description, and its look at player also.
-
-    // treasureDescription.show -> set text & image with 1st param. and set position width 2nd param
-    public void showDescription(int treasureIndex, bool lookPlayerWhenShow, bool alwaysLookPlayer)
-    {
-        Debug.Log("in showDesciption treasureIndex : " + treasureIndex + "has size : " + treasureObjects.Length);
-        GameObject foundTreasure = treasureObjects[treasureIndex];
-        Vector3 treasurePos = foundTreasure.transform.position;
-        Vector3 playerPos = player.transform.position;
-        Vector3 directionVec = Vector3.Normalize(playerPos - treasurePos);
-        Vector3 descriptionPos = treasurePos + foundTreasure.transform.localScale.x * directionVec / 2;
-        treasureDescription.lookPlayerWhenShow = lookPlayerWhenShow;
-        treasureDescription.alwaysLookPlayer = alwaysLookPlayer;
-        treasureDescription.show(treasureIndex, descriptionPos);
-    }
-
-    public void showDescription(int treasureIndex, Vector3 descriptionPos, bool lookPlayerWhenShow, bool alwaysLookPlayer)
-    {
-        Debug.Log("in showDesciption treasureIndex : " + treasureIndex + "has size : " + treasureObjects.Length);
-        Vector3 playerPos = player.transform.position;
-        treasureDescription.lookPlayerWhenShow = lookPlayerWhenShow;
-        treasureDescription.alwaysLookPlayer = alwaysLookPlayer;
-        treasureDescription.show(treasureIndex, descriptionPos);
     }
 }
