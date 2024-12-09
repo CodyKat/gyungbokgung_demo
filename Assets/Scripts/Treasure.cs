@@ -36,7 +36,7 @@ public class Treasure : MonoBehaviour
             {
 
                 treasureIsFoundFlags[i] = true;
-                treasureHuntManager.showDescription(i);
+                treasureHuntManager.showDescription(i, true, false);
                 this.gameObject.SetActive(false);
             }
         }

@@ -23,6 +23,8 @@ public class IllustratedGuide : MonoBehaviour
     private Transform xrCamera;
 
     private Texture2D[] treasureImages;
+    public float width;
+    public float height;
     int i = 0;
 
     protected IllustratedGuide() { }
@@ -65,7 +67,8 @@ public class IllustratedGuide : MonoBehaviour
         transform.LookAt(xrCamera.position);
         transform.Rotate(new Vector3(0, 180, 0));
         transform.position = Vector3.Lerp(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-
+        width = this.GetComponent<RectTransform>().rect.width;
+        height = this.GetComponent<RectTransform>().rect.height;
         i++;
         if (i == 200)
             treasureHuntManager.treasureImageObjects[0].transform.GetComponent<Button>().onClick.Invoke();

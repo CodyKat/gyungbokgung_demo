@@ -11,6 +11,7 @@ using UnityEngine.Rendering;
 public class TreasureHuntManager : MonoBehaviour
 {
     private static TreasureHuntManager _instance;
+    private TreasureDescription treasureDescription;
     private static object _synLock = new object();
     private GameObject[] treasureSpots;
     public GameObject player;
@@ -19,10 +20,9 @@ public class TreasureHuntManager : MonoBehaviour
     public bool[] treasureIsFoundFlags;
     public TextAsset[] descriptionTexts;
     public Texture2D[] treasureImages;
-    private GameObject descriptionCanvas;
-    private PanelHandler descriptionPanel;
     private GameObject illustratedGuideCanvas;
     private PanelHandler illustratedGuidePanel;
+    public Sprite[] spriteImages;
 
 
     protected TreasureHuntManager() { }
@@ -69,9 +69,7 @@ public class TreasureHuntManager : MonoBehaviour
             treasureObjects[i].transform.localScale = new Vector3(10f, 10f, 10f);
             treasureObjects[i].transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.black;
         }
-
-        descriptionCanvas = GameObject.Find("TreasureDescription");
-        descriptionPanel = descriptionCanvas.transform.Find("Panel").GetComponent<PanelHandler>();
+        treasureDescription = GameObject.Find("TreasureDescription").GetComponent<TreasureDescription>();
 
         illustratedGuideCanvas = GameObject.Find("IllustratedGuide");
         illustratedGuidePanel = illustratedGuideCanvas.transform.Find("Panel").GetComponent<PanelHandler>();
@@ -129,12 +127,18 @@ public class TreasureHuntManager : MonoBehaviour
     private void LoadTreasureImages()
     {
         treasureImages = new Texture2D[treasureObjects.Length];
+        spriteImages = new Sprite[treasureImages.Length];
         for (int i = 0; i < treasureObjects.Length; i++)
         {
             string imageFilePath = Constants.TREASURE_IMAGE_PATH + "treasure_image_" + i;
             treasureImages[i] = Resources.Load(imageFilePath) as Texture2D;
             if (treasureImages[i] == null)
                 Debug.LogError("treasureImage" + i + "is not found!!");
+            spriteImages[i] = Sprite.Create(
+                treasureImages[i],
+                new Rect(0, 0, treasureImages[i].width, treasureImages[i].height),
+                new Vector2(0.5f, 0.5f)
+            );
         }
     }
 
@@ -153,7 +157,9 @@ public class TreasureHuntManager : MonoBehaviour
     // this function show treasure's description board infront of treasure, look at player
     // double parameter function (look below) get treasureIndex and description position.
     // second function can set position of treasure description, and its look at player also.
-    public void showDescription(int treasureIndex)
+
+    // treasureDescription.show -> set text & image with 1st param. and set position width 2nd param
+    public void showDescription(int treasureIndex, bool lookPlayerWhenShow, bool alwaysLookPlayer)
     {
         Debug.Log("in showDesciption treasureIndex : " + treasureIndex + "has size : " + treasureObjects.Length);
         GameObject foundTreasure = treasureObjects[treasureIndex];
@@ -161,67 +167,17 @@ public class TreasureHuntManager : MonoBehaviour
         Vector3 playerPos = player.transform.position;
         Vector3 directionVec = Vector3.Normalize(playerPos - treasurePos);
         Vector3 descriptionPos = treasurePos + foundTreasure.transform.localScale.x * directionVec / 2;
-        descriptionPanel.transform.Find("Text").GetComponent<TextMeshProUGUI>().text
-            = descriptionTexts[treasureIndex].ToString();
-
-        Sprite spriteImage = Sprite.Create(
-        treasureImages[treasureIndex],
-        new Rect(0, 0, treasureImages[treasureIndex].width, treasureImages[treasureIndex].height),
-                new Vector2(0.5f, 0.5f)
-            );
-        descriptionPanel.transform.Find("Image").GetComponent<Image>().sprite = spriteImage;
-
-        if (descriptionPanel == null)
-        {
-            Debug.Log("Description Board Object not found!!!");
-        }
-
-        descriptionCanvas.transform.position = descriptionPos;
-        // �ѹ��� �÷��̾ �ٶ󺸰� �ϰ� ������ -playerpos�� LookAt�� �ص� ��ü�� �ٶ�
-        descriptionCanvas.transform.LookAt(playerPos);
-        descriptionCanvas.transform.Rotate(new Vector3(0, 180, 0));
-
-        
-
-        descriptionPanel.Show();
-        var seq = DOTween.Sequence();
-
-        seq.Play().OnComplete(() => {
-            descriptionPanel.Show();
-        });
+        treasureDescription.lookPlayerWhenShow = lookPlayerWhenShow;
+        treasureDescription.alwaysLookPlayer = alwaysLookPlayer;
+        treasureDescription.show(treasureIndex, descriptionPos);
     }
 
-    public void showDescription(int treasureIndex, Vector3 descriptionPos)
+    public void showDescription(int treasureIndex, Vector3 descriptionPos, bool lookPlayerWhenShow, bool alwaysLookPlayer)
     {
         Debug.Log("in showDesciption treasureIndex : " + treasureIndex + "has size : " + treasureObjects.Length);
         Vector3 playerPos = player.transform.position;
-        descriptionPanel.transform.Find("Text").GetComponent<TextMeshProUGUI>().text
-            = descriptionTexts[treasureIndex].ToString();
-
-        Sprite spriteImage = Sprite.Create(
-        treasureImages[treasureIndex],
-        new Rect(0, 0, treasureImages[treasureIndex].width, treasureImages[treasureIndex].height),
-                new Vector2(0.5f, 0.5f)
-            );
-        descriptionPanel.transform.Find("Image").GetComponent<Image>().sprite = spriteImage;
-
-        if (descriptionPanel == null)
-        {
-            Debug.Log("Description Board Object not found!!!");
-        }
-
-        descriptionCanvas.transform.position = descriptionPos;
-        // �ѹ��� �÷��̾ �ٶ󺸰� �ϰ� ������ -playerpos�� LookAt�� �ص� ��ü�� �ٶ�
-        descriptionCanvas.transform.LookAt(playerPos);
-        descriptionCanvas.transform.Rotate(new Vector3(0, 180, 0));
-
-
-
-        descriptionPanel.Show();
-        var seq = DOTween.Sequence();
-
-        seq.Play().OnComplete(() => {
-            descriptionPanel.Show();
-        });
+        treasureDescription.lookPlayerWhenShow = lookPlayerWhenShow;
+        treasureDescription.alwaysLookPlayer = alwaysLookPlayer;
+        treasureDescription.show(treasureIndex, descriptionPos);
     }
 }
