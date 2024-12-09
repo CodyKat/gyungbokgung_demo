@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
-
+public class XEvent : UnityEvent<int> { };
 public class IllustratedGuide : MonoBehaviour
 {
     private static IllustratedGuide _instance;
@@ -15,6 +16,7 @@ public class IllustratedGuide : MonoBehaviour
     private string[] descriptionTexts;
     private float frontDistance = 8f;
     private float moveSpeed = 3f;
+    private GameObject[] treasureImageObjects;
 
     private PanelHandler illustratedGuidePanel;
 
@@ -22,7 +24,6 @@ public class IllustratedGuide : MonoBehaviour
     private Transform xrCamera;
 
     private Texture2D[] treasureImages;
-
 
     protected IllustratedGuide() { }
     public static IllustratedGuide Instance
@@ -50,6 +51,8 @@ public class IllustratedGuide : MonoBehaviour
 
         illustratedGuidePanel = transform.Find("Panel").GetComponent<PanelHandler>();
 
+        treasureImageObjects = GetChildren(illustratedGuidePanel.transform.Find("TreasureImages").gameObject);
+
         player = GameObject.Find("Player");
         xrCamera = Camera.main.transform;
     }
@@ -70,7 +73,6 @@ public class IllustratedGuide : MonoBehaviour
 
         Debug.Log("in loadFoundTreasure");
         int imageIndex = 0;
-        GameObject[] imagesObjects = GetChildren(transform.Find("Panel").Find("TreasureImages").gameObject);
         Debug.Log("flag length " + treasureIsFoundFlags.Length);
         for (int i = 0; i < treasureIsFoundFlags.Length; i++)
         {
@@ -80,7 +82,8 @@ public class IllustratedGuide : MonoBehaviour
                 new Rect(0, 0, treasureImages[i].width, treasureImages[i].height),
                 new Vector2(0.5f, 0.5f)
             );
-            imagesObjects[imageIndex].transform.GetComponent<Image>().sprite = spriteImage;
+            treasureImageObjects[imageIndex].transform.GetComponent<Image>().sprite = spriteImage;
+            treasureImageObjects[imageIndex].transform.GetComponent<Button>().onClick.AddListener(() => treasureHuntManager.showDescription(i));
             imageIndex++;
         }
         transform.position = targetPosition;
