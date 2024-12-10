@@ -8,7 +8,6 @@ public class Treasure : MonoBehaviour
     private TreasureDescription treasureDescription;
     private GameObject[] treasureObjects;
     private bool[] treasureIsFoundFlags;
-    int j = 0;
 
     private void Awake()
     {
@@ -25,9 +24,6 @@ public class Treasure : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        j++;
-        if (j == 10)
-            onClick();
     }
 
     public void onClick()
