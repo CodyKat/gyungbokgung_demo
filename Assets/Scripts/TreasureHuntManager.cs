@@ -63,12 +63,17 @@ public class TreasureHuntManager : MonoBehaviour
             treasureIsFoundFlags[i] = false;
         }
 
+        Debug.Log("treasureObjects count " + treasureObjects.Length);
+        Debug.Log("treasureSpots count " + treasureSpots.Length);
+
         int[] spotIndices = GeneratorRandomNumber(1, treasureSpots.Length, treasureObjects.Length);
+        Debug.Log("spotIndices count " + spotIndices.Length);
         for (int i = 0;i < spotIndices.Length; i++)
         {
+            Debug.Log("in TreasureHuntManager loop " + i);
             treasureObjects[i].transform.position = treasureSpots[spotIndices[i]].transform.position + new Vector3(0f, 5f, 0f);
+            Debug.Log("treasureObjects position " + treasureObjects[i].transform.position);
             treasureObjects[i].transform.localScale = new Vector3(10f, 10f, 10f);
-            treasureObjects[i].transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.black;
         }
         treasureDescription = GameObject.Find("TreasureDescription").GetComponent<TreasureDescription>();
 
