@@ -22352,17 +22352,17 @@ PrefabInstance:
     - target: {fileID: 8583146858647884491, guid: 15f15f0b08be0ec4e82788904aaab01c,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8583146858647884491, guid: 15f15f0b08be0ec4e82788904aaab01c,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8583146858647884491, guid: 15f15f0b08be0ec4e82788904aaab01c,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8583146858647884491, guid: 15f15f0b08be0ec4e82788904aaab01c,
         type: 3}
@@ -30131,6 +30131,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Clepsydra
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990862821813164007, guid: ef758fa49b1957a4ba9eb1a112bf6f32,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990862821813164007, guid: ef758fa49b1957a4ba9eb1a112bf6f32,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990862821813164007, guid: ef758fa49b1957a4ba9eb1a112bf6f32,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -44680,7 +44695,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1318438604}
@@ -48190,7 +48205,7 @@ Transform:
   m_GameObject: {fileID: 1780111238}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.25, y: 0, z: 0}
+  m_LocalPosition: {x: -1.85, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -53755,7 +53770,7 @@ Transform:
   m_GameObject: {fileID: 1958853485}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -4.42, y: 0, z: 2.78}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
