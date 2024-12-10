@@ -1,5 +1,11 @@
-Library/PackageCache/*
-Library/BurstCache/*
-Library/ShaderCache/*
-Library/StateCache/*
-Library/Bee/*
+Library/*
+Logs/*
+Temp/*
+.vs/*
+obj/*
+UserSettings/*
+.vscode/*
+.vsconfig
+*.csproj
+**/*.userprefs
+**/*.pidb

@@ -1,0 +1,9 @@
+11/25
+기존에 개발한 건축물 설명 템플릿 메인 프로젝트 파일에 적용 및 디자인 수정
+DoT-ween 애니메이션 사용, https://github.com/kirevdokimov/Unity-UI-Rounded-Corners 사용하여 ui 모서리 둥글게 처리
+
+11/26
+건축물 설명 템플릿 vr환경에서 작동 안하는 오류 해결
+템플릿 디자인 수정
+start button 3d object로 변경
+3d object 클릭 버튼 조절 필요
