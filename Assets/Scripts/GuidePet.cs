@@ -7,6 +7,7 @@ public class GuidePet : MonoBehaviour
 {
     private TreasureHuntManager treasureHuntManager;
     private PanelHandler menuPanel;
+    int i = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +19,9 @@ public class GuidePet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        i++;
+        if (i == 50)
+            onClick();
     }
 
     public void onClick()

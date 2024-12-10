@@ -1,10 +1,12 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
-
+public class XEvent : UnityEvent<int> { };
 public class IllustratedGuide : MonoBehaviour
 {
     private static IllustratedGuide _instance;
@@ -17,12 +19,16 @@ public class IllustratedGuide : MonoBehaviour
     private float moveSpeed = 3f;
 
     private PanelHandler illustratedGuidePanel;
+    private TreasureDescription treasureDescription;
 
     private GameObject player;
     private Transform xrCamera;
 
     private Texture2D[] treasureImages;
-
+    public Vector3[] cornersPos;
+    public float worldWidth;
+    public float worldHeight;
+    int i = 0;
 
     protected IllustratedGuide() { }
     public static IllustratedGuide Instance
@@ -50,8 +56,12 @@ public class IllustratedGuide : MonoBehaviour
 
         illustratedGuidePanel = transform.Find("Panel").GetComponent<PanelHandler>();
 
+        treasureHuntManager.treasureImageObjects = GetChildren(illustratedGuidePanel.transform.Find("TreasureImages").gameObject);
+        treasureDescription = GameObject.Find("TreasureDescription").GetComponent<TreasureDescription>();
+
         player = GameObject.Find("Player");
         xrCamera = Camera.main.transform;
+        cornersPos = new Vector3[4];
     }
 
     //TODO : À§Ä¡¸¦ ¶«»±À¸·Î Àâ¾Æ³ùÀ½.
@@ -62,6 +72,12 @@ public class IllustratedGuide : MonoBehaviour
         transform.LookAt(xrCamera.position);
         transform.Rotate(new Vector3(0, 180, 0));
         transform.position = Vector3.Lerp(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        this.GetComponent<RectTransform>().GetWorldCorners(cornersPos);
+        worldHeight = (cornersPos[0] - cornersPos[1]).magnitude;
+        worldWidth = (cornersPos[0] - cornersPos[2]).magnitude;
+        i++;
+        if (i == 200)
+            treasureHuntManager.treasureImageObjects[0].transform.GetComponent<Button>().onClick.Invoke();
     }
 
     public void loadFoundTreasure()
@@ -70,7 +86,6 @@ public class IllustratedGuide : MonoBehaviour
 
         Debug.Log("in loadFoundTreasure");
         int imageIndex = 0;
-        GameObject[] imagesObjects = GetChildren(transform.Find("Panel").Find("TreasureImages").gameObject);
         Debug.Log("flag length " + treasureIsFoundFlags.Length);
         for (int i = 0; i < treasureIsFoundFlags.Length; i++)
         {
@@ -80,10 +95,25 @@ public class IllustratedGuide : MonoBehaviour
                 new Rect(0, 0, treasureImages[i].width, treasureImages[i].height),
                 new Vector2(0.5f, 0.5f)
             );
-            imagesObjects[imageIndex].transform.GetComponent<Image>().sprite = spriteImage;
+            int capturedIndex = i;
+            treasureHuntManager.treasureImageObjects[imageIndex].transform.GetComponent<Image>().sprite = spriteImage;
+            Debug.Log("in loadFoundTreasure, i : " + i + "imageIndex : " + imageIndex);
+            treasureHuntManager.treasureImageObjects[imageIndex].transform.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                treasureDescription.showDescription(capturedIndex, true);
+            });
             imageIndex++;
         }
         transform.position = targetPosition;
+    }
+    public void showIllustratedGuide()
+    {
+        illustratedGuidePanel.Show();
+        var seq = DOTween.Sequence();
+
+        seq.Play().OnComplete(() => {
+            illustratedGuidePanel.Show();
+        });
     }
     public GameObject[] GetChildren(GameObject parent)
     {

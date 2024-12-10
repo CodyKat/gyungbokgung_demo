@@ -10,6 +10,8 @@ public class MainMenu : MonoBehaviour
     GameObject player;
     PanelHandler menuPanel;
     private IllustratedGuide IllustratedGuide;
+    private GameObject descriptionCanvas;
+    int i = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +20,7 @@ public class MainMenu : MonoBehaviour
         player = treasureHuntManager.player;
         menuPanel = transform.Find("Panel").GetComponent<PanelHandler>();
         IllustratedGuide = GameObject.FindObjectOfType<IllustratedGuide>();
+        descriptionCanvas = GameObject.Find("TreasureDescription");
         // 초기화 코드 필요 시 여기에 작성
     }
 
@@ -27,6 +30,9 @@ public class MainMenu : MonoBehaviour
         transform.position = this.transform.parent.transform.position + new Vector3(0, 2, 0);
         transform.LookAt(player.transform.position);
         transform.Rotate(new Vector3(0, 180, 0));
+        i++;
+        if (i == 100)
+            OnClickTreasure();
     }
 
     // 게임 종료 버튼 클릭 시 호출
@@ -61,6 +67,15 @@ public class MainMenu : MonoBehaviour
         Debug.Log("도감");
         // 도감 열기 로직 추가
         IllustratedGuide.loadFoundTreasure();
-        treasureHuntManager.showIllustratedGuide();
+        IllustratedGuide.showIllustratedGuide();
+
+        // **설명창 위치를 사용자 주변으로 이동**
+        Vector3 playerPos = player.transform.position;
+        Vector3 playerForward = player.transform.forward; // 플레이어가 보는 방향
+        Vector3 offset = new Vector3(0, 1.5f, 0); // 머리 위로 약간
+        Vector3 descriptionPos = playerPos + playerForward * 2f + offset; // 플레이어 앞 2미터
+
+        Debug.Log("in onclickTreasure : playerpos : " + playerPos);
+        descriptionCanvas.transform.position = new Vector3(0, 0, 0);
     }
 }
