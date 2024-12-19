@@ -67,7 +67,7 @@ public class WalkSound : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Left controller is not valid!");  // 디버깅 메시지 추가
+            // Debug.LogWarning("Left controller is not valid!");  // 디버깅 메시지 추가
             GetLeftController();  // 매 프레임마다 왼쪽 컨트롤러를 갱신
         }
     }
@@ -85,7 +85,7 @@ public class WalkSound : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No Left Controller found.");  // 오류 메시지
+            // Debug.LogError("No Left Controller found.");  // 오류 메시지
             // 모든 연결된 XR 장치 출력
             List<InputDevice> allDevices = new List<InputDevice>();
             InputDevices.GetDevices(allDevices);
