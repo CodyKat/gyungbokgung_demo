@@ -21,7 +21,7 @@ public class BuildingDescriptionControllor : MonoBehaviour
     public void SetDescriptionText(GameObject scanObj)
     {
         desText = new TextAsset();
-        string descriptionTextFilePath = Constants.DESCRIPTIONS_PATH + "building" + scanObj.name + '_' + PlayerSetting.Instance.language;
+        string descriptionTextFilePath = Constants.DESCRIPTIONS_PATH + "Building/" + scanObj.name + '_' + PlayerSetting.Instance.language;
         desText = Resources.Load(descriptionTextFilePath) as TextAsset;
         if (desText == null)
         {
