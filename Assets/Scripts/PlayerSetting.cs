@@ -30,8 +30,7 @@ public class PlayerSetting
     private static void InitSetting(PlayerSetting setting)
     {
         if (Application.systemLanguage == SystemLanguage.Korean
-            || Application.systemLanguage == SystemLanguage.English
-            || Application.systemLanguage == SystemLanguage.Japanese)
+            || Application.systemLanguage == SystemLanguage.English)
             setting.language = Application.systemLanguage;
         else
             setting.language = SystemLanguage.English;

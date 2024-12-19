@@ -19,7 +19,8 @@ public class TreasureHuntManager : MonoBehaviour
     public GameObject[] treasureObjects;
     public GameObject[] treasureImageObjects;
     public bool[] treasureIsFoundFlags;
-    public TextAsset[] descriptionTexts;
+    public TextAsset[] descriptionTexts_kor;
+    public TextAsset[] descriptionTexts_eng;
     public Texture2D[] treasureImages;
     private GameObject illustratedGuideCanvas;
     private PanelHandler illustratedGuidePanel;
@@ -71,7 +72,7 @@ public class TreasureHuntManager : MonoBehaviour
         for (int i = 0;i < spotIndices.Length; i++)
         {
             Debug.Log("in TreasureHuntManager loop " + i);
-            treasureObjects[i].transform.position = treasureSpots[spotIndices[i]].transform.position + new Vector3(0f, 5f, 0f);
+            treasureObjects[i].transform.position = treasureSpots[spotIndices[i]].transform.position;
             Debug.Log("treasureObjects position " + treasureObjects[i].transform.position);
             treasureObjects[i].transform.localScale = new Vector3(10f, 10f, 10f);
         }
@@ -120,12 +121,17 @@ public class TreasureHuntManager : MonoBehaviour
 
     private void LoadDescriptionTexts()
     {
-        descriptionTexts = new TextAsset[treasureObjects.Length];
+        descriptionTexts_kor = new TextAsset[treasureObjects.Length];
+        descriptionTexts_eng = new TextAsset[treasureObjects.Length];
         for (int i = 0; i < treasureObjects.Length; i++)
         {
-            string descriptionTextFilePath = Constants.DESCRIPTIONS_PATH + i + '_' + PlayerSetting.Instance.language;
-            descriptionTexts[i] = Resources.Load(descriptionTextFilePath) as TextAsset;
-            if (descriptionTexts[i] == null)
+            string descriptionTextFilePath = Constants.DESCRIPTIONS_PATH + treasureObjects[i].name + '_' + SystemLanguage.Korean;
+            descriptionTexts_kor[i] = Resources.Load(descriptionTextFilePath) as TextAsset;
+            if (descriptionTexts_kor[i] == null)
+                Debug.LogError("not file found PATH :" + descriptionTextFilePath);
+            descriptionTextFilePath = Constants.DESCRIPTIONS_PATH + treasureObjects[i].name + '_' + SystemLanguage.English;
+            descriptionTexts_eng[i] = Resources.Load(descriptionTextFilePath) as TextAsset;
+            if (descriptionTexts_eng[i] == null)
                 Debug.LogError("not file found PATH :" + descriptionTextFilePath);
         }
     }

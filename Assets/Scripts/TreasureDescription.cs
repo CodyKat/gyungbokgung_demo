@@ -10,7 +10,8 @@ public class TreasureDescription : MonoBehaviour
     private TreasureHuntManager treasureHuntManager;
     private GameObject[] treasureObjects;
     private IllustratedGuide illustratedGuide;
-    private TextAsset[] descriptionTexts;
+    private TextAsset[] descriptionTexts_eng;
+    private TextAsset[] descriptionTexts_kor;
     private Sprite[] spriteImages;
     public bool lookPlayerWhenShow = true;
     public bool alwaysLookPlayer = false;
@@ -20,6 +21,7 @@ public class TreasureDescription : MonoBehaviour
     public float worldHeight;
     private GameObject player;
     private Transform xrCamera;
+    private int moveSpeed = 3;
 
     void Start()
     {
@@ -27,7 +29,8 @@ public class TreasureDescription : MonoBehaviour
         treasureHuntManager = TreasureHuntManager.Instance;
         treasureObjects = treasureHuntManager.treasureObjects;
         illustratedGuide = IllustratedGuide.Instance;
-        descriptionTexts = treasureHuntManager.descriptionTexts;
+        descriptionTexts_kor = treasureHuntManager.descriptionTexts_kor;
+        descriptionTexts_eng = treasureHuntManager.descriptionTexts_eng;
         spriteImages = treasureHuntManager.spriteImages;
         cornersPos = new Vector3[4];
         player = treasureHuntManager.player;
@@ -43,9 +46,9 @@ public class TreasureDescription : MonoBehaviour
         if (dockInIllustratedGuide)
         {
             // TODO adjust panel position.
-            Vector3 pos = xrCamera.position + new Vector3(2, 0, 2);
+            Vector3 targetPosition = xrCamera.position + new Vector3(3, 2.5f, 3);
+            setPosition(Vector3.Lerp(transform.position, targetPosition, moveSpeed * Time.deltaTime));
             lookPlayer();
-            setPosition(pos);
         }
         else if (alwaysLookPlayer)
             lookPlayer();
@@ -65,6 +68,7 @@ public class TreasureDescription : MonoBehaviour
         Vector3 playerPos = player.transform.position;
         Vector3 directionVec = Vector3.Normalize(playerPos - treasurePos);
         Vector3 descriptionPos = treasurePos + foundTreasure.transform.localScale.x * directionVec / 2;
+        descriptionPos.y = 4.8f;
         this.dockInIllustratedGuide = false;
         this.lookPlayerWhenShow = lookPlayerWhenShow;
         this.alwaysLookPlayer = alwaysLookPlayer;
@@ -90,8 +94,16 @@ public class TreasureDescription : MonoBehaviour
     }
     private void setText(int treasureIndex)
     {
-        descriptionPanel.transform.Find("Text").GetComponent<TextMeshProUGUI>().text
-            = descriptionTexts[treasureIndex].ToString();
+        if (PlayerSetting.Instance.language == SystemLanguage.Korean)
+        {
+            descriptionPanel.transform.Find("Text").GetComponent<TextMeshProUGUI>().text
+                = descriptionTexts_kor[treasureIndex].ToString();
+        }
+        else
+        {
+            descriptionPanel.transform.Find("Text").GetComponent<TextMeshProUGUI>().text
+                = descriptionTexts_eng[treasureIndex].ToString();
+        }
     }
 
     private void setImage(int treasureIndex)
