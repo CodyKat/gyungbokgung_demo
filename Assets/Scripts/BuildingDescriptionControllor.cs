@@ -11,11 +11,24 @@ public class BuildingDescriptionControllor : MonoBehaviour
 
     public TextAsset desText;
 
+    public AudioClip soundClip;  // 재생할 소리 클립
+    private AudioSource audioSource;  // 오디오 소스 컴포넌트
+
     // Start is called before the first frame update
     void Start()
     {
         buildingPanel = gameObject.transform.parent.Find("Description").gameObject;
         popupWindow = buildingPanel.GetComponent<PanelHandler>();
+
+        audioSource = GetComponent<AudioSource>();
+
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // 소리 재생을 시작하지 않도록 초기화
+        audioSource.Stop();  // 초기화 시 소리 중지
     }
 
     public void SetDescriptionText(GameObject scanObj)
@@ -34,8 +47,8 @@ public class BuildingDescriptionControllor : MonoBehaviour
     {
         SetDescriptionText(this.transform.parent.gameObject);
         popupWindow.Show();
+        audioSource.Play();
         var seq = DOTween.Sequence();
-
         // seq.Append(transform.DOScale(0.95f, 0.1f));
         // seq.Append(transform.DOScale(1.05f, 0.1f));
         // seq.Append(transform.DOScale(1f, 0.1f));
