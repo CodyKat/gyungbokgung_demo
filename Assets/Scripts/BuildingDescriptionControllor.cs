@@ -47,6 +47,8 @@ public class BuildingDescriptionControllor : MonoBehaviour
     {
         SetDescriptionText(this.transform.parent.gameObject);
         popupWindow.Show();
+        audioSource.loop = true;  // 반복 재생 설정
+        audioSource.clip = soundClip;
         audioSource.Play();
         var seq = DOTween.Sequence();
         // seq.Append(transform.DOScale(0.95f, 0.1f));
